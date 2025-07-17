@@ -218,12 +218,12 @@ func (c *ServiceExportController) syncServiceExportOrEndpointSlice(key util.Queu
 	switch fedKey.Kind {
 	case util.ServiceExportKind:
 		if err := c.handleServiceExportEvent(ctx, fedKey); err != nil {
-			klog.ErrorS(err, "Failed to handle serviceExport event, Error", "serviceExport", fedKey.NamespaceKey())
+			klog.ErrorS(err, "Failed to handle serviceExport event", "serviceExport", fedKey.NamespaceKey())
 			return err
 		}
 	case util.EndpointSliceKind:
 		if err := c.handleEndpointSliceEvent(ctx, fedKey); err != nil {
-			klog.ErrorS(err, "Failed to handle endpointSlice event, Error", "endpointSlice", fedKey.NamespaceKey())
+			klog.ErrorS(err, "Failed to handle endpointSlice event", "endpointSlice", fedKey.NamespaceKey())
 			return err
 		}
 	}
@@ -234,7 +234,7 @@ func (c *ServiceExportController) syncServiceExportOrEndpointSlice(key util.Queu
 func (c *ServiceExportController) buildResourceInformers(cluster *clusterv1alpha1.Cluster) error {
 	err := c.registerInformersAndStart(cluster)
 	if err != nil {
-		klog.ErrorS(err, "Failed to register informer for Cluster. Error", "cluster", cluster.Name)
+		klog.ErrorS(err, "Failed to register informer for Cluster", "cluster", cluster.Name)
 		return err
 	}
 	return nil
@@ -488,7 +488,7 @@ func (c *ServiceExportController) reportEndpointSliceWithEndpointSliceCreateOrUp
 			return nil
 		}
 
-		klog.ErrorS(err, "Failed to get ServiceExport object. error", "namespace", endpointSlice.GetNamespace(), "name", relatedServiceName)
+		klog.ErrorS(err, "Failed to get ServiceExport object", "namespace", endpointSlice.GetNamespace(), "name", relatedServiceName)
 		return err
 	}
 
@@ -520,7 +520,7 @@ func getEndpointSliceWorkMeta(ctx context.Context, c client.Client, ns string, w
 		Namespace: ns,
 		Name:      workName,
 	}, existWork); err != nil && !apierrors.IsNotFound(err) {
-		klog.ErrorS(err, "Get EndpointSlice work error", "namespace", ns, "name", workName)
+		klog.ErrorS(err, "Failed to get EndpointSlice work", "namespace", ns, "name", workName)
 		return metav1.ObjectMeta{}, err
 	}
 
@@ -560,7 +560,7 @@ func cleanupWorkWithServiceExportDelete(ctx context.Context, c client.Client, se
 			util.ServiceNameLabel:      serviceExportKey.Name,
 		}),
 	}); err != nil {
-		klog.ErrorS(err, "Failed to list workList reported by ServiceExport in executionSpace, Error",
+		klog.ErrorS(err, "Failed to list workList reported by ServiceExport in executionSpace",
 			"namespace", serviceExportKey.Namespace, "name", serviceExportKey.Name, "executionSpace", executionSpace)
 		return err
 	}
@@ -616,7 +616,7 @@ func cleanEndpointSliceWork(ctx context.Context, c client.Client, work *workv1al
 	}
 
 	if err := c.Delete(ctx, work); err != nil {
-		klog.ErrorS(err, "Failed to delete work, Error", "namespace", work.Namespace, "name", work.Name)
+		klog.ErrorS(err, "Failed to delete work", "namespace", work.Namespace, "name", work.Name)
 		return err
 	}
 
