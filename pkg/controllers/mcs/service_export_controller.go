@@ -129,8 +129,9 @@ func (c *ServiceExportController) Reconcile(ctx context.Context, req controllerr
 	}
 
 	if !util.IsClusterReady(&cluster.Status) {
+		err := fmt.Errorf("cluster(%s) not ready", cluster.Name)
 		klog.ErrorS(err, "Stop sync work for cluster as cluster not ready.", "namespace", work.Namespace, "name", work.Name, "cluster", cluster.Name)
-		return controllerruntime.Result{}, fmt.Errorf("cluster(%s) not ready", cluster.Name)
+		return controllerruntime.Result{}, err
 	}
 
 	return controllerruntime.Result{}, c.buildResourceInformers(cluster)

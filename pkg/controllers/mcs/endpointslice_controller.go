@@ -69,7 +69,8 @@ func (c *EndpointSliceController) Reconcile(ctx context.Context, req controllerr
 		if err := helper.DeleteEndpointSlice(ctx, c.Client, labels.Set{
 			workv1alpha2.WorkPermanentIDLabel: work.Labels[workv1alpha2.WorkPermanentIDLabel],
 		}); err != nil {
-			klog.ErrorS(err, "Failed to delete endpointslice when deleting work", "namespace", work.Namespace, "name", work.Name)
+			klog.ErrorS(err, "Failed to delete endpointslice when deleting work", "namespace",
+				work.Namespace, "name", work.Name)
 			return controllerruntime.Result{}, err
 		}
 		return controllerruntime.Result{}, c.removeFinalizer(ctx, work.DeepCopy())
