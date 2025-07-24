@@ -54,7 +54,7 @@ type EndpointSliceController struct {
 
 // Reconcile performs a full reconciliation for the object referred to by the Request.
 func (c *EndpointSliceController) Reconcile(ctx context.Context, req controllerruntime.Request) (controllerruntime.Result, error) {
-	klog.V(4).InfoS("Reconciling Work", "name", req.NamespacedName.String())
+	klog.V(4).InfoS("Reconciling Work", "namespace", req.NamespacedName.Namespace, "name", req.NamespacedName.Name)
 
 	work := &workv1alpha1.Work{}
 	if err := c.Client.Get(ctx, req.NamespacedName, work); err != nil {

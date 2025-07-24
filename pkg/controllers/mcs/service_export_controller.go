@@ -94,7 +94,7 @@ var (
 
 // Reconcile performs a full reconciliation for the object referred to by the Request.
 func (c *ServiceExportController) Reconcile(ctx context.Context, req controllerruntime.Request) (controllerruntime.Result, error) {
-	klog.V(4).InfoS("Reconciling Work", "name", req.NamespacedName.String())
+	klog.V(4).InfoS("Reconciling Work", "namespace", req.NamespacedName.Namespace, "name", req.NamespacedName.Name)
 
 	work := &workv1alpha1.Work{}
 	if err := c.Client.Get(ctx, req.NamespacedName, work); err != nil {
@@ -366,7 +366,7 @@ func (c *ServiceExportController) handleServiceExportEvent(ctx context.Context, 
 	// If skip report here, after ServiceExport deletion and re-creation, if no EndpointSlice changes, we didn't get a
 	// change to sync.
 	if err = c.reportEndpointSliceWithServiceExportCreate(ctx, serviceExportKey); err != nil {
-		klog.ErrorS(err, "Failed to handle ServiceExport event", "serviceExport", serviceExportKey.NamespaceKey())
+		klog.ErrorS(err, "Failed to handle ServiceExport event", "namespace", serviceExportKey.Namespace, "name", serviceExportKey.Name)
 		return err
 	}
 
@@ -386,7 +386,7 @@ func (c *ServiceExportController) handleEndpointSliceEvent(ctx context.Context, 
 	}
 
 	if err = c.reportEndpointSliceWithEndpointSliceCreateOrUpdate(ctx, endpointSliceKey.Cluster, endpointSliceObj); err != nil {
-		klog.ErrorS(err, "Failed to handle endpointSlice event", "endpointSlice", endpointSliceKey.NamespaceKey())
+		klog.ErrorS(err, "Failed to handle endpointSlice event", "namespace", endpointSliceKey.Namespace, "name", endpointSliceKey.Name)
 		return err
 	}
 
