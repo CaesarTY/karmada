@@ -48,7 +48,7 @@ func makeRequest(t *testing.T, operation admissionv1.Operation, tq *schedulingv1
 func newTenantQueue(namespace, name string, strategy schedulingv1alpha1.QueueingStrategy) *schedulingv1alpha1.TenantQueue {
 	return &schedulingv1alpha1.TenantQueue{
 		TypeMeta: metav1.TypeMeta{
-			APIVersion: schedulingv1alpha1.SchemeGroupVersion.String(),
+			APIVersion: schedulingv1alpha1.GroupVersion.String(),
 			Kind:       schedulingv1alpha1.ResourceKindTenantQueue,
 		},
 		ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name},

@@ -31,8 +31,8 @@ import (
 // with apply.
 //
 // TenantQueue configures per-tenant scheduling queue settings.
-// It is namespace-scoped — one TenantQueue per namespace. ResourceBindings
-// in the same namespace are routed to this queue for scheduling.
+// It is namespace-scoped with a singleton name "queue" (TenantQueueSingletonName).
+// ResourceBindings in the same namespace are routed to this queue for scheduling.
 type TenantQueueApplyConfiguration struct {
 	v1.TypeMetaApplyConfiguration    `json:",inline"`
 	*v1.ObjectMetaApplyConfiguration `json:"metadata,omitempty"`

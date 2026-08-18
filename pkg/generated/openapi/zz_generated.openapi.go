@@ -6193,7 +6193,7 @@ func schema_pkg_apis_scheduling_v1alpha1_TenantQueue(ref common.ReferenceCallbac
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "TenantQueue configures per-tenant scheduling queue settings. It is namespace-scoped — one TenantQueue per namespace. ResourceBindings in the same namespace are routed to this queue for scheduling.",
+				Description: "TenantQueue configures per-tenant scheduling queue settings. It is namespace-scoped with a singleton name \"queue\" (TenantQueueSingletonName). ResourceBindings in the same namespace are routed to this queue for scheduling.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"kind": {
